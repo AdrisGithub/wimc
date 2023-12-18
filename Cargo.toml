@@ -2,8 +2,14 @@
 name = "wimc"
 version = "0.0.0"
 edition = "2021"
+authors = ["Adriiii"]
+description = "Wizards in Memory Cache"
+readme = "README.md"
+repository = "https://github.com/AdrisGithub/wimc"
+license = "GPL-2.0-or-later"
+documentation = "https://docs.rs/wimc"
+exclude = ["src/resources/", ".github/", "sonar-project.properties"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 aul = "1.3.1"
