@@ -7,6 +7,6 @@ RUN cargo install --target x86_64-unknown-linux-musl --path .
 FROM alpine:latest
 RUN apk --no-cache add gcompat
 
-COPY --from=builder /usr/local/cargo/bin/wss /usr/local/bin/wss
-CMD ["/usr/local/bin/wss"]
+COPY --from=builder /usr/local/cargo/bin/wimc /usr/local/bin/wimc
+CMD ["/usr/local/bin/wimc"]
 EXPOSE 8080
