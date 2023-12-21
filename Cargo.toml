@@ -10,6 +10,10 @@ license = "GPL-2.0-or-later"
 documentation = "https://docs.rs/wimc"
 exclude = ["src/resources/", ".github/", "sonar-project.properties"]
 
+[[bin]]
+path = "src/main/main.rs"
+name = "wimc"
+
 
 [dependencies]
 aul = "1.3.1"
