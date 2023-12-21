@@ -29,9 +29,9 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "wbsl"
-version = "0.0.1"
+version = "0.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "10a12e151f42af7f12a5f10483821ae5e9c518adb12fca4e37b48e72feae2812"
+checksum = "53fc1b96a647ecb722b29edd609ab8cac1ea52ee5bb1ea175b03c6dda076ab1e"
 dependencies = [
  "aul",
  "whdp",
@@ -40,9 +40,9 @@ dependencies = [
 
 [[package]]
 name = "whdp"
-version = "1.1.9"
+version = "1.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "75528aceea198c7307dd0c4c81991e8bdd7e7dcbb37b43f5610b3bc08e194c5b"
+checksum = "06f98551f2cb9d6130153dd635d05177b79d047e345ce46c8c7565222ad34561"
 dependencies = [
  "wjp",
 ]

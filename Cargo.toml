@@ -13,6 +13,6 @@ exclude = ["src/resources/", ".github/", "sonar-project.properties"]
 
 [dependencies]
 aul = "1.3.1"
-whdp = "1.1.9"
+whdp = "1.1.10"
 wjp = "1.0.2"
-wbsl = "0.0.1"
+wbsl = "0.0.2"
