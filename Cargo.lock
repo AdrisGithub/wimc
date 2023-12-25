@@ -28,6 +28,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
+name = "wbdl"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e84d65db8b30b5e03af33ffd4d2843e235eeb23adcfb5a23da0aec8177d2b5cb"
+
+[[package]]
 name = "wbsl"
 version = "0.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -54,6 +60,17 @@ dependencies = [
  "aul",
  "wbsl",
  "whdp",
+ "wimcm",
+ "wjp",
+]
+
+[[package]]
+name = "wimcm"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f68136bd625f63a50d37af284022fc26648b5a84cbdbf9d64188382ff1676055"
+dependencies = [
+ "wbdl",
  "wjp",
 ]
 
