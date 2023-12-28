@@ -1,13 +1,18 @@
+mod constants;
+mod saver;
+mod storage;
+
 use wbsl::error::WBSLError;
 use wbsl::ser_servlet::SerializeServlet;
-use wimcm::{WIMCInput, WIMCMethods, WIMCOutput};
 use wimcm::presets::{pong, respond};
+use wimcm::{WIMCInput, WIMCMethods, WIMCOutput};
 use wjp::Values;
 
 fn main() -> Result<(), WBSLError> {
     SerializeServlet::builder()
-    .with_func(handle_requests)
-    .bind("0.0.0.0:6969")?.start();
+        .with_func(handle_requests)
+        .bind("0.0.0.0:6969")?
+        .start();
     Ok(())
 }
 
