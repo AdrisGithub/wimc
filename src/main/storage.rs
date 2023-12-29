@@ -1,25 +1,29 @@
+use std::collections::HashMap;
+
 use aul::error;
 use aul::level::Level;
 use aul::log;
-use wimcm::WIMCInput;
 use wjp::{ParseError, Serialize, Values};
 
-use crate::saver;
+use crate::models::WIMCData;
 
 struct Storage {
-    store: Vec<WIMCInput>, // TODO this is just an arbitary type for the start
+    store: HashMap<u128,WIMCData>, 
 }
 impl Drop for Storage {
     fn drop(&mut self) {
-        let _ = saver::save(self.json().as_str()).map_err(|err| error!("{:?}", err));
+        let _ = crate::saver::save(self.json().as_str()).map_err(|err| error!("{:?}", err));
     }
+}
+impl Storage {
+    
 }
 
 impl TryFrom<Values> for Storage {
     type Error = ParseError;
     fn try_from(value: Values) -> Result<Self, Self::Error> {
         Ok(Self {
-            store: Vec::try_from(value)?,
+            store: HashMap::try_from(value)?,
         })
     }
 }
