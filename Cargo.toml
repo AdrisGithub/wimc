@@ -8,7 +8,7 @@ readme = "README.md"
 repository = "https://github.com/AdrisGithub/wimc"
 license = "GPL-2.0-or-later"
 documentation = "https://docs.rs/wimc"
-exclude = ["src/resources", ".github/", "sonar-project.properties"]
+exclude = ["src/resource/*", ".github/", "sonar-project.properties"]
 
 [[bin]]
 path = "src/main/main.rs"
