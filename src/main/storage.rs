@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::ops::Not;
 
 use aul::error;
 use aul::level::Level;
@@ -8,7 +9,7 @@ use wjp::{ParseError, Serialize, Values};
 use crate::models::WIMCData;
 
 struct Storage {
-    store: HashMap<u128,WIMCData>, 
+    store: HashMap<u128, WIMCData>,
 }
 impl Drop for Storage {
     fn drop(&mut self) {
@@ -16,7 +17,20 @@ impl Drop for Storage {
     }
 }
 impl Storage {
-    
+    pub fn store(&mut self, data: WIMCData) -> u128 {
+        let id = *data.id();
+        self.store.insert(id, data);
+        id
+    }
+    pub fn get(&mut self, id: &u128) -> Option<&WIMCData> {
+        self.store.get(id)
+    }
+    pub fn query(&mut self, words: Vec<String>) -> Vec<&WIMCData> {
+        self.store
+            .values()
+            .filter(|&val| val.params().is_empty())
+            .collect()
+    }
 }
 
 impl TryFrom<Values> for Storage {

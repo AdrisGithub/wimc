@@ -11,10 +11,10 @@ pub struct WIMCData {
 impl Serialize for WIMCData {
     fn serialize(&self) -> Values {
         Values::Struct(map!(
-            ("id", self.id.serialize()),
-            ("payload", self.payload.clone()),
-            ("time", Values::String(self.time.to_string())),
-            ("params", self.params.serialize())
+            ("id", &self.id),
+            ("payload", &self.payload),
+            ("time", &self.time.to_string()),
+            ("params", &self.params)
         ))
     }
 }
@@ -69,5 +69,17 @@ impl WIMCData {
     pub fn with_id(mut self, id: u128) -> Self {
         self.id = id;
         self
+    }
+    pub fn payload(&self) -> &Values {
+        &self.payload
+    }
+    pub fn time(&self) -> &Date {
+        &self.time
+    }
+    pub fn id(&self) -> &u128 {
+        &self.id
+    }
+    pub fn params(&self) -> &Vec<String> {
+        &self.params
     }
 }
