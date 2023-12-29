@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::ops::Not;
 
 use aul::error;
 use aul::level::Level;
@@ -28,7 +27,7 @@ impl Storage {
     pub fn query(&mut self, words: Vec<String>) -> Vec<&WIMCData> {
         self.store
             .values()
-            .filter(|&val| val.params().is_empty())
+            .filter(|&val| words.iter().all(|word| val.params().contains(word))) // TODO wichtig abtesten
             .collect()
     }
 }
