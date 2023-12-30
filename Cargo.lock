@@ -68,9 +68,9 @@ dependencies = [
 
 [[package]]
 name = "wimcm"
-version = "0.1.2"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "edc685e4df1152db59432356f4a9f0068a939898987bdfcb54443b9a73b6f035"
+checksum = "309e150a2dbf33e6f1b4c502fc21bcbe2e29467701ddae13b782264de60079ac"
 dependencies = [
  "wbdl",
  "wjp",
@@ -144,6 +144,6 @@ checksum = "ed94fce61571a4006852b7389a063ab983c02eb1bb37b47f8272ce92d06d9538"
 
 [[package]]
 name = "wjp"
-version = "1.1.1"
+version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8658bdb2b96336d2353545cdec156c134aac42fbd336910cb6ddd0ebc084eb5f"
+checksum = "8a3808ee18db9fede02adb2a599a035c18b735b8467edf1bec6782d4ba87ff48"
