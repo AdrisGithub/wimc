@@ -1,9 +1,9 @@
 use crate::storage::Storage;
 
-pub struct Parser(Storage);
+pub struct Parser(Option<Storage>);
 
 impl Parser {
-    pub fn new() -> Self {
-        Self(Storage::new())
+    pub const fn new() -> Self {
+        Self(None)
     }
 }

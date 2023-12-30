@@ -5,6 +5,7 @@ use wimcm::{WIMCInput, WIMCMethods, WIMCOutput};
 use wjp::Values;
 
 use crate::constants::{ADDRESS, DOUBLE_COLON, PORT};
+use crate::parser::Parser;
 
 mod constants;
 mod models;
@@ -31,6 +32,7 @@ fn handle_requests(input: WIMCInput) -> WIMCOutput {
         WIMCMethods::Query => query(input),
     }
 }
+static mut STORE: Parser = Parser::new();
 
 fn ping() -> WIMCOutput {
     pong()
