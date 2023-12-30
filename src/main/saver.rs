@@ -1,6 +1,5 @@
 use std::fs::{read_to_string, File, OpenOptions};
 use std::io::Write;
-use std::ops::Add;
 
 use wimcm::WIMCError;
 
@@ -24,7 +23,7 @@ pub fn load() -> Result<String, WIMCError> {
 }
 fn file_name() -> Result<String, WIMCError> {
     std::env::var(HOME)
-        .map(|string| string.add(SLASH).add(FILE_NAME))
+        .map(|string| format!("{}{}{}", string, SLASH, FILE_NAME))
         .map_err(|_err| WIMCError)
 }
 #[cfg(test)]
