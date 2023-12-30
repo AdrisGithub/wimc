@@ -6,29 +6,59 @@ use aul::log;
 use wjp::{ParseError, Serialize, Values};
 
 use crate::models::WIMCData;
-
-struct Storage {
-    store: HashMap<u128, WIMCData>,
+use crate::util::is_due;
+#[derive(Debug)]
+pub struct Storage {
+    data: HashMap<u128, WIMCData>,
 }
 impl Drop for Storage {
     fn drop(&mut self) {
         let _ = crate::saver::save(self.json().as_str()).map_err(|err| error!("{:?}", err));
+        println!("Dropping");
     }
 }
 impl Storage {
     pub fn store(&mut self, data: WIMCData) -> u128 {
         let id = *data.id();
-        self.store.insert(id, data);
+        self.data.insert(id, data);
         id
     }
     pub fn get(&mut self, id: &u128) -> Option<&WIMCData> {
-        self.store.get(id)
+        self.cleanup();
+        self.data.get(id)
     }
     pub fn query(&mut self, words: Vec<String>) -> Vec<&WIMCData> {
-        self.store
+        self.cleanup();
+        self.data
             .values()
-            .filter(|&val| words.iter().all(|word| val.params().contains(word))) // TODO wichtig abtesten
-            .collect()
+            .filter(|&val| words.iter().all(|word| val.params().contains(word)))
+            .collect() // TODO wichtig abtesten
+    }
+
+    pub fn cleanup(&mut self) {
+        for value in self._due_vals().iter() {
+            self.remove(*value);
+        }
+    }
+    pub fn _due_vals(&self) -> Vec<u128> {
+        let mut new = Vec::with_capacity(self.data.len());
+        for value in self._values() {
+            if is_due(value.time()) {
+                new.push(*value.id())
+            }
+        }
+        new
+    }
+    fn _values(&self) -> Vec<&WIMCData> {
+        self.data.values().collect()
+    }
+    pub fn remove(&mut self, key: u128) {
+        println!("{:?}", self.data.remove(&key));
+    }
+    pub fn new() -> Self {
+        Self {
+            data: HashMap::new(),
+        }
     }
 }
 
@@ -36,12 +66,36 @@ impl TryFrom<Values> for Storage {
     type Error = ParseError;
     fn try_from(value: Values) -> Result<Self, Self::Error> {
         Ok(Self {
-            store: HashMap::try_from(value)?,
+            data: HashMap::try_from(value)?,
         })
     }
 }
 impl Serialize for Storage {
     fn serialize(&self) -> Values {
-        self.store.serialize()
+        self.data.serialize()
+    }
+}
+#[cfg(test)]
+mod tests {
+    use crate::models::WIMCData;
+    use crate::storage::Storage;
+
+    #[test]
+    pub fn it_test() {
+        let mut storage = Storage::new();
+        let data = WIMCData::default();
+        let id = *data.id();
+        storage.store(data);
+        storage.get(&id);
+    }
+    #[test]
+    pub fn testing() {
+        let mut storage = Storage::new();
+        let data = WIMCData::default().with_id(3);
+        storage.store(data);
+        let data = WIMCData::default().with_id(2);
+        storage.store(data);
+        let data = WIMCData::default().with_id(1);
+        storage.store(data);
     }
 }
