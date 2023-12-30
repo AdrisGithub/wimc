@@ -1,3 +1,11 @@
+use wbsl::error::WBSLError;
+use wbsl::ser_servlet::SerializeServlet;
+use wimcm::presets::{pong, respond};
+use wimcm::{WIMCInput, WIMCMethods, WIMCOutput};
+use wjp::Values;
+
+use crate::constants::{ADDRESS, DOUBLE_COLON, PORT};
+
 mod constants;
 mod models;
 mod parser;
@@ -5,16 +13,10 @@ mod saver;
 mod storage;
 mod util;
 
-use wbsl::error::WBSLError;
-use wbsl::ser_servlet::SerializeServlet;
-use wimcm::presets::{pong, respond};
-use wimcm::{WIMCInput, WIMCMethods, WIMCOutput};
-use wjp::Values;
-
 fn main() -> Result<(), WBSLError> {
     SerializeServlet::builder()
         .with_func(handle_requests)
-        .bind("0.0.0.0:6969")?
+        .bind(format!("{}{}{}", ADDRESS, DOUBLE_COLON, PORT))?
         .start();
     Ok(())
 }
