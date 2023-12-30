@@ -3,14 +3,14 @@ use std::collections::HashMap;
 use aul::error;
 use aul::level::Level;
 use aul::log;
-use wjp::{ParseError, Serialize, Values};
+use wimcm::WIMCError;
+use wjp::{Deserialize, ParseError, Serialize, Values};
 
 use crate::models::WIMCData;
+use crate::saver::load;
 use crate::util::is_due;
 #[derive(Debug)]
-pub struct Storage {
-    data: HashMap<u128, WIMCData>,
-}
+pub struct Storage(HashMap<u128, WIMCData>);
 impl Drop for Storage {
     fn drop(&mut self) {
         let _ = crate::saver::save(self.json().as_str()).map_err(|err| error!("{:?}", err));
@@ -20,16 +20,16 @@ impl Drop for Storage {
 impl Storage {
     pub fn store(&mut self, data: WIMCData) -> u128 {
         let id = *data.id();
-        self.data.insert(id, data);
+        self.0.insert(id, data);
         id
     }
     pub fn get(&mut self, id: &u128) -> Option<&WIMCData> {
         self.cleanup();
-        self.data.get(id)
+        self.0.get(id)
     }
     pub fn query(&mut self, words: Vec<String>) -> Vec<&WIMCData> {
         self.cleanup();
-        self.data
+        self.0
             .values()
             .filter(|&val| words.iter().all(|word| val.params().contains(word)))
             .collect() // TODO wichtig abtesten
@@ -41,7 +41,7 @@ impl Storage {
         }
     }
     pub fn _due_vals(&self) -> Vec<u128> {
-        let mut new = Vec::with_capacity(self.data.len());
+        let mut new = Vec::with_capacity(self.0.len());
         for value in self._values() {
             if is_due(value.time()) {
                 new.push(*value.id())
@@ -50,29 +50,28 @@ impl Storage {
         new
     }
     fn _values(&self) -> Vec<&WIMCData> {
-        self.data.values().collect()
+        self.0.values().collect()
     }
     pub fn remove(&mut self, key: u128) {
-        println!("{:?}", self.data.remove(&key));
+        println!("{:?}", self.0.remove(&key));
     }
     pub fn new() -> Self {
-        Self {
-            data: HashMap::new(),
-        }
+        Self::load().unwrap_or(Storage(HashMap::new()))
+    }
+    fn load() -> Result<Storage, WIMCError> {
+        Self::deserialize(load()?).map_err(|err| WIMCError)
     }
 }
 
 impl TryFrom<Values> for Storage {
     type Error = ParseError;
     fn try_from(value: Values) -> Result<Self, Self::Error> {
-        Ok(Self {
-            data: HashMap::try_from(value)?,
-        })
+        Ok(Self(HashMap::try_from(value)?))
     }
 }
 impl Serialize for Storage {
     fn serialize(&self) -> Values {
-        self.data.serialize()
+        self.0.serialize()
     }
 }
 #[cfg(test)]
