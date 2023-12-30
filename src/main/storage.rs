@@ -1,15 +1,15 @@
-use std::collections::HashMap;
-
 use aul::error;
 use aul::level::Level;
 use aul::log;
+use std::collections::HashMap;
 use wimcm::WIMCError;
 use wjp::{Deserialize, ParseError, Serialize, Values};
 
 use crate::models::WIMCData;
 use crate::saver::load;
 use crate::util::is_due;
-#[derive(Debug)]
+
+#[derive(Debug, Clone)]
 pub struct Storage(HashMap<u128, WIMCData>);
 impl Drop for Storage {
     fn drop(&mut self) {
@@ -40,7 +40,7 @@ impl Storage {
             self.remove(*value);
         }
     }
-    pub fn _due_vals(&self) -> Vec<u128> {
+    fn _due_vals(&self) -> Vec<u128> {
         let mut new = Vec::with_capacity(self.0.len());
         for value in self._values() {
             if is_due(value.time()) {
@@ -59,14 +59,15 @@ impl Storage {
         Self::load().unwrap_or(Storage(HashMap::new()))
     }
     fn load() -> Result<Storage, WIMCError> {
-        Self::deserialize(load()?).map_err(|err| WIMCError)
+        Self::deserialize(load()?).map_err(|_err| WIMCError)
     }
 }
 
 impl TryFrom<Values> for Storage {
     type Error = ParseError;
     fn try_from(value: Values) -> Result<Self, Self::Error> {
-        Ok(Self(HashMap::try_from(value)?))
+        let map = HashMap::try_from(value)?;
+        Ok(Self(map))
     }
 }
 impl Serialize for Storage {
@@ -78,6 +79,8 @@ impl Serialize for Storage {
 mod tests {
     use crate::models::WIMCData;
     use crate::storage::Storage;
+    use wbdl::Date;
+    use wjp::{Deserialize, Serialize};
 
     #[test]
     pub fn it_test() {
@@ -96,5 +99,29 @@ mod tests {
         storage.store(data);
         let data = WIMCData::default().with_id(1);
         storage.store(data);
+    }
+
+    #[test]
+    pub fn persistence() {
+        let mut storage = Storage::new();
+        let mut date = Date::now_unchecked();
+        date.add_year();
+        storage.store(WIMCData::default().with_id(10).with_time(date));
+        drop(storage);
+        let mut storage = Storage::new();
+        println!("{:?}", storage.get(&10));
+    }
+    #[test]
+    pub fn idk() {
+        println!("{}", Storage::new().json());
+    }
+    #[test]
+    pub fn idkk() {
+        let mut storage = Storage::new();
+        storage.store(WIMCData::default());
+        storage.store(WIMCData::default().with_id(2));
+        let json = storage.json();
+        println!("{}", json);
+        println!("{:?}", Storage::deserialize(json));
     }
 }

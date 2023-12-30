@@ -19,7 +19,8 @@ fn home_file() -> Result<File, WIMCError> {
         .map_err(|_err| WIMCError)
 }
 pub fn load() -> Result<String, WIMCError> {
-    read_to_string(file_name()?).map_err(|_err| WIMCError)
+    let result = read_to_string(file_name()?).map_err(|_err| WIMCError);
+    result
 }
 fn file_name() -> Result<String, WIMCError> {
     std::env::var(HOME)
