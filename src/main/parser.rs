@@ -2,4 +2,8 @@ use crate::storage::Storage;
 
 pub struct Parser(Storage);
 
-impl Parser {}
+impl Parser {
+    pub fn new() -> Self {
+        Self(Storage::new())
+    }
+}
