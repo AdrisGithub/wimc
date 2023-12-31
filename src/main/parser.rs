@@ -21,13 +21,13 @@ impl Parser {
         }
     }
     pub fn store(&mut self, input: WIMCInput) -> WIMCOutput {
-        self._find_id();
-        let id = self._id();
-
-        WIMCOutput::from_values(self._store().store(Self::map(input, id)).serialize())
+        let i = self.increment();
+        WIMCOutput::from_values(self._store().store(Self::map(input, i)).serialize())
     }
-    fn _id(&self) -> u128 {
-        self.1
+    fn increment(&mut self) -> u128{
+        let id = self.1;
+        self.1 += 1;
+        id
     }
     fn map(input: WIMCInput, id: u128) -> WIMCData {
         let mut vec = input.get_params().to_vec();
@@ -36,9 +36,6 @@ impl Parser {
             .with_params(input.get_params().to_vec())
             .with_payload(input.get_payload().serialize())
             .with_id(id)
-    }
-    fn _find_id(&mut self) {
-        self.1 += 1;
     }
     fn _find_date(vec: &mut Vec<String>) -> Date {
         let opt = find_date(vec);
@@ -78,6 +75,10 @@ impl Parser {
         if let Ok(id) = id {
             self._store().remove(id)
         }
+        WIMCOutput::from_values(Values::Null)
+    }
+    pub fn cleanup(&mut self) -> WIMCOutput {
+        self._store().cleanup();
         WIMCOutput::from_values(Values::Null)
     }
 }

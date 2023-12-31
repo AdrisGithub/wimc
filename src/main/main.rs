@@ -5,7 +5,6 @@ use wimcm::{WIMCInput, WIMCMethods, WIMCOutput};
 
 use crate::constants::{ADDRESS, DOUBLE_COLON, PORT};
 use crate::parser::Parser;
-
 mod constants;
 mod models;
 mod parser;
@@ -43,7 +42,7 @@ fn echo(input: WIMCInput) -> WIMCOutput {
 }
 
 fn cleanup() -> WIMCOutput {
-    WIMCOutput::default()
+    unsafe {STORE.cleanup()}
 }
 
 fn store(input: WIMCInput) -> WIMCOutput {
