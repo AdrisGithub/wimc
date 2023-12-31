@@ -1,4 +1,4 @@
-use std::fs::{read_to_string, File, OpenOptions};
+use std::fs::{File, OpenOptions, read_to_string};
 use std::io::Write;
 
 use wimcm::WIMCError;
@@ -10,6 +10,7 @@ pub fn save(string: &str) -> Result<(), WIMCError> {
         .write_all(string.as_bytes())
         .map_err(|_err| WIMCError)
 }
+
 fn home_file() -> Result<File, WIMCError> {
     OpenOptions::new()
         .create(true)
@@ -18,15 +19,18 @@ fn home_file() -> Result<File, WIMCError> {
         .open(file_name()?)
         .map_err(|_err| WIMCError)
 }
+
 pub fn load() -> Result<String, WIMCError> {
     let result = read_to_string(file_name()?).map_err(|_err| WIMCError);
     result
 }
+
 fn file_name() -> Result<String, WIMCError> {
     std::env::var(HOME)
         .map(|string| format!("{}{}{}", string, SLASH, FILE_NAME))
         .map_err(|_err| WIMCError)
 }
+
 #[cfg(test)]
 mod tests {
     use std::fs::remove_file;
@@ -42,4 +46,10 @@ mod tests {
         assert_eq!(load().unwrap(), TEST_TEXT);
         let _ = remove_file(file_name().unwrap());
     }
-}
+
+    #[test]
+    pub fn tests() {
+        let filename = file_name();
+        assert_eq!("/home/adri/wimc.json", filename.unwrap())
+    }
+} 
