@@ -24,7 +24,7 @@ impl Parser {
         let i = self.increment();
         WIMCOutput::from_values(self._store().store(Self::map(input, i)).serialize())
     }
-    fn increment(&mut self) -> u128{
+    fn increment(&mut self) -> u128 {
         let id = self.1;
         self.1 += 1;
         id

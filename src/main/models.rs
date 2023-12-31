@@ -1,7 +1,7 @@
 use wbdl::Date;
 use wjp::{map, ParseError, Serialize, SerializeHelper, Values};
 
-#[derive(Debug,Clone)]
+#[derive(Debug, Clone)]
 pub struct WIMCData {
     payload: Values,
     params: Vec<String>,

@@ -1,4 +1,4 @@
-use std::fs::{File, OpenOptions, read_to_string};
+use std::fs::{read_to_string, File, OpenOptions};
 use std::io::Write;
 
 use wimcm::WIMCError;
@@ -52,4 +52,4 @@ mod tests {
         let filename = file_name();
         assert_eq!("/home/adri/wimc.json", filename.unwrap())
     }
-} 
+}

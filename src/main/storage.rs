@@ -18,7 +18,7 @@ impl Drop for Storage {
     }
 }
 impl Storage {
-    fn save(&self){
+    fn save(&self) {
         let _ = crate::saver::save(self.json().as_str()).map_err(|err| error!("{:?}", err));
     }
     pub fn store(&mut self, data: WIMCData) -> u128 {

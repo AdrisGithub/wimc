@@ -42,7 +42,7 @@ fn echo(input: WIMCInput) -> WIMCOutput {
 }
 
 fn cleanup() -> WIMCOutput {
-    unsafe {STORE.cleanup()}
+    unsafe { STORE.cleanup() }
 }
 
 fn store(input: WIMCInput) -> WIMCOutput {
