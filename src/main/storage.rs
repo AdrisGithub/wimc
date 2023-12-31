@@ -13,14 +13,18 @@ use crate::util::is_due;
 pub struct Storage(HashMap<u128, WIMCData>);
 impl Drop for Storage {
     fn drop(&mut self) {
-        let _ = crate::saver::save(self.json().as_str()).map_err(|err| error!("{:?}", err));
+        self.save();
         println!("Dropping");
     }
 }
 impl Storage {
+    fn save(&self){
+        let _ = crate::saver::save(self.json().as_str()).map_err(|err| error!("{:?}", err));
+    }
     pub fn store(&mut self, data: WIMCData) -> u128 {
         let id = *data.id();
         self.0.insert(id, data);
+        self.save();
         id
     }
     pub fn get(&mut self, id: &u128) -> Option<&WIMCData> {
@@ -37,8 +41,9 @@ impl Storage {
 
     pub fn cleanup(&mut self) {
         for value in self._due_vals().iter() {
-            self.remove(*value);
+            self.0.remove(&value);
         }
+        self.save();
     }
     fn _due_vals(&self) -> Vec<u128> {
         let mut new = Vec::with_capacity(self.0.len());
@@ -53,7 +58,8 @@ impl Storage {
         self.0.values().collect()
     }
     pub fn remove(&mut self, key: u128) {
-        println!("{:?}", self.0.remove(&key));
+        self.0.remove(&key);
+        self.save();
     }
     pub fn new() -> Self {
         Self::load().unwrap_or(Storage(HashMap::new()))
