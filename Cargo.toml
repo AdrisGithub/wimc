@@ -20,5 +20,5 @@ aul = { version = "1.3.1", features = ["no-color"] }
 whdp = "1.1.11"
 wjp = "1.1.2"
 wbsl = "0.0.4"
-wimcm = "0.2.0"
+wimcm = "0.2.2"
 wbdl = "1.1.0"
