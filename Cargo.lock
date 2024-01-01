@@ -4,9 +4,9 @@ version = 3
 
 [[package]]
 name = "aul"
-version = "1.3.1"
+version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3277b916fe5280211078805d03c2ebb917d7c44f103f4f150948f5f839e09283"
+checksum = "48103b545ed39da9a31be4052d18b456af8783a5ee27b9e923aadf3a8f5a5c6b"
 dependencies = [
  "colored",
 ]
@@ -29,15 +29,15 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "wbdl"
-version = "1.1.0"
+version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c32726226aa294bdf9cc2731c43e437a906b614b56b1add7da8945710d4706e4"
+checksum = "1d5b93b3c3ff77fa49ee56a460bcd57a33c65d3da629c5688fedec821e6ada5d"
 
 [[package]]
 name = "wbsl"
-version = "0.0.4"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "009e457d0ac73b3b4f6de44b9fbff9f1aa454ac8842c12f13e5c4692d155849e"
+checksum = "4233bc743575ca469618042a461e8c881f991f09d65a9342f040baa7692af618"
 dependencies = [
  "aul",
  "wbdl",
@@ -47,16 +47,16 @@ dependencies = [
 
 [[package]]
 name = "whdp"
-version = "1.1.11"
+version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4c6634bbad96280de7a0fc67954005fb961c7e9cc8154c95efc2adf9eda27ed2"
+checksum = "3699b61ff0931348e3173b9ee161f8714fd3efe256006ca3bb60ee7cadb07ebe"
 dependencies = [
  "wjp",
 ]
 
 [[package]]
 name = "wimc"
-version = "0.0.1"
+version = "0.1.0"
 dependencies = [
  "aul",
  "wbdl",
@@ -68,9 +68,9 @@ dependencies = [
 
 [[package]]
 name = "wimcm"
-version = "0.2.4"
+version = "0.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c9297f362da34185afa3b7c0c17394a90d4bf0dd756115b6f38eebf90eb63e1"
+checksum = "616309768622d23da2e173da2c7c470ed450d0e5f7b76ab54e3acb7930dad0e8"
 dependencies = [
  "wbdl",
  "wjp",
@@ -144,6 +144,6 @@ checksum = "ed94fce61571a4006852b7389a063ab983c02eb1bb37b47f8272ce92d06d9538"
 
 [[package]]
 name = "wjp"
-version = "1.1.2"
+version = "1.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8a3808ee18db9fede02adb2a599a035c18b735b8467edf1bec6782d4ba87ff48"
+checksum = "e4c2ee991b083bf67f70564b2430ac7d2cb2b2a51eb8aacd9111b8e977a6fe76"

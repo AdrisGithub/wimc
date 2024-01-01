@@ -3,7 +3,7 @@ use aul::level::Level;
 use aul::log;
 use std::collections::HashMap;
 use wimcm::WIMCError;
-use wjp::{Deserialize, ParseError, Serialize, Values};
+use wjp::{ParseError, Serialize, Values};
 
 use crate::models::WIMCData;
 use crate::saver::load;
@@ -65,10 +65,10 @@ impl Storage {
         Self::load().unwrap_or(Storage(HashMap::new()))
     }
     fn load() -> Result<Storage, WIMCError> {
-        Self::deserialize(load()?).map_err(|_err| WIMCError)
+        Self::deserialize_str(&load()?).map_err(|_err| WIMCError)
     }
 }
-
+use wjp::Deserialize;
 impl TryFrom<Values> for Storage {
     type Error = ParseError;
     fn try_from(value: Values) -> Result<Self, Self::Error> {

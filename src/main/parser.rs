@@ -5,6 +5,7 @@ use wjp::{Serialize, Values};
 use crate::models::WIMCData;
 use crate::storage::Storage;
 use crate::util::find_date;
+
 #[derive(Clone)]
 pub struct Parser(Option<Storage>, u128);
 
@@ -42,9 +43,7 @@ impl Parser {
         if let Some(s) = opt {
             s
         } else {
-            let mut date = Date::now().unwrap_or(Date::UNIX_EPOCH);
-            date.add_month();
-            date
+            Date::now().unwrap_or(Date::UNIX_EPOCH).add_month()
         }
     }
     pub fn get(&mut self, input: WIMCInput) -> WIMCOutput {
@@ -66,7 +65,7 @@ impl Parser {
             ._store()
             .query(input.get_params().to_vec())
             .into_iter()
-            .map(|v|v.payload().serialize())
+            .map(|v| v.payload().serialize())
             .collect();
         WIMCOutput::from_values(idk.serialize())
     }
