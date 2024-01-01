@@ -62,11 +62,11 @@ impl Parser {
         WIMCOutput::from_values(data.payload().serialize())
     }
     pub fn query(&mut self, input: WIMCInput) -> WIMCOutput {
-        let idk: Vec<WIMCOutput> = self
+        let idk: Vec<Values> = self
             ._store()
             .query(input.get_params().to_vec())
             .into_iter()
-            .map(Self::_mapp)
+            .map(|v|v.payload().serialize())
             .collect();
         WIMCOutput::from_values(idk.serialize())
     }
