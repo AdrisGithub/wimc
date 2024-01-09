@@ -23,7 +23,6 @@ impl TryFrom<Values> for WIMCData {
     type Error = ParseError;
     fn try_from(value: Values) -> Result<Self, Self::Error> {
         let mut struc = value.get_struct().ok_or(ParseError::new())?;
-        //println!("{:?}", struc);
         let id = struc.map_val("id", u128::try_from)?;
         let params = struc.map_val("params", Vec::try_from)?;
         let payload = struc.remove("payload").ok_or(ParseError::new())?;
