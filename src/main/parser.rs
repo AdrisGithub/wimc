@@ -25,6 +25,27 @@ impl Parser {
         let i = self.increment();
         WIMCOutput::from_values(self._store().store(Self::map(input, i)).serialize())
     }
+
+    pub fn store_inc(&mut self, input: WIMCInput) -> WIMCOutput {
+        let i = self.increment();
+        match Self::override_id(input, i) {
+            Ok(ok) => WIMCOutput::from_values(self._store().store(Self::map(ok, i)).serialize()),
+            Err(err) => WIMCOutput::from_err(err)
+        }
+    }
+    fn override_id(val: WIMCInput, id: u128) -> Result<WIMCInput, WIMCError> {
+        let struc = val.get_payload().get_struct();
+        if let Some(mut map) = struc {
+            if map.contains_key("id") {
+                map.insert(String::from("id"), id.serialize());
+                Ok(val)
+            } else {
+                Err(WIMCError)
+            }
+        } else {
+            Err(WIMCError)
+        }
+    }
     fn increment(&mut self) -> u128 {
         let id = self.1;
         self.1 += 1;

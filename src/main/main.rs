@@ -1,9 +1,10 @@
 use wbsl::error::WBSLError;
 use wbsl::ser_servlet::SerializeServlet;
-use wimcm::presets::{pong, respond};
 use wimcm::{ADDRESS, DOUBLE_COLON, PORT, WIMCInput, WIMCMethods, WIMCOutput};
+use wimcm::presets::{pong, respond};
 
 use crate::parser::Parser;
+
 mod constants;
 mod models;
 mod parser;
@@ -28,8 +29,14 @@ fn handle_requests(input: WIMCInput) -> WIMCOutput {
         WIMCMethods::Get => get(input),
         WIMCMethods::Query => query(input),
         WIMCMethods::Remove => remove(input),
+        WIMCMethods::StoreInc => store_inc(input),
     }
 }
+
+fn store_inc(input: WIMCInput) -> WIMCOutput {
+    unsafe { STORE.store_inc(input) }
+}
+
 static mut STORE: Parser = Parser::new();
 
 fn ping() -> WIMCOutput {
@@ -55,6 +62,7 @@ fn get(input: WIMCInput) -> WIMCOutput {
 fn query(input: WIMCInput) -> WIMCOutput {
     unsafe { STORE.query(input) }
 }
+
 fn remove(input: WIMCInput) -> WIMCOutput {
     unsafe { STORE.remove(input) }
 }
